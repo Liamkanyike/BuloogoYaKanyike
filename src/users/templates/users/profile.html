@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'profile/main.css' %}">
+
+<br>
+<br>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="blog_left_sidebar">
+                
+
+ <div class="content-section">
+    <div class="col-md-15">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>			
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <fieldset class="form-group">
+        <legend class="boader-bottom mb-4">Profile Info</legend>
+        {{ u_form|crispy }}
+        {{ p_form|crispy }}
+    </fieldset>
+    <div class="form-group"></div>
+    <button class="btn btn-outline-info mb-4" type="submit">Update</button>
+</form>
+</div>
+
+</div>
+</div>
+</div>
+ <!--SIDEBAR-->
+ {% load static %}
+ <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="{% url 'search' %}" class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search Posts" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                </span>
+                            </form><!-- /input-group -->
+                            <div class="br"></div>
+                        </aside>
+                        <aside class="single_sidebar_widget author_widget">
+                            <img class="author_img rounded-circle" style="height:60%; width: 60%;" src="{% static 'img/will.png' %}" alt="">
+                            <h4>William Kanyike</h4>
+                            <p>C.E.O LiamXsCreations</p>
+                            <div class="social_icon">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-github"></i></a>
+                                <a href="#"><i class="fa fa-behance"></i></a>
+                            </div>
+                            <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
+                                should have to spend money on boot camp when you can get. Boot camps have itssuppor
+                                ters andits detractors.</p>
+                            <div class="br"></div>
+                        </aside>
+                   
+                 
+                            <div class="br"></div>
+                        </aside>
+                        <aside class="single_sidebar_widget ads_widget">
+                            <a href="#"><img class="img-fluid" src="{% static 'img/blog/add.jpg' %}" alt=""></a>
+                            <div class="br"></div>
+                        </aside>
+
+                        
+
+                        <aside class="single-sidebar-widget newsletter_widget">
+                            <h4 class="widget_title">Newsletter</h4>
+                            <p>
+                                Here, I focus on a range of items and features that we use in life without
+                                giving them a second thought.
+                            </p>
+                            <div class="form-group d-flex flex-row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email"
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'">
+                                </div>
+                                <a href="#" class="bbtns">Subcribe</a>
+                            </div>
+                            <p class="text-bottom">You can unsubscribe at any time</p>
+                            <div class="br"></div>
+                        </aside>
+                    </div>
+                </div>
+                       <!-- <aside class="single-sidebar-widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li><a href="#">Technology</a></li>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Architecture</a></li>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Food</a></li>
+                                <li><a href="#">Technology</a></li>
+                                <li><a href="#">Lifestyle</a></li>
+                                <li><a href="#">Art</a></li>
+                                <li><a href="#">Adventure</a></li>
+                                <li><a href="#">Food</a></li>
+                                <li><a href="#">Lifestyle</a></li>
+                                <li><a href="#">Adventure</a></li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div> -->
+                
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock content %} 

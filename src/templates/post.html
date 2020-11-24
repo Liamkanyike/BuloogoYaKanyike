@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post row">
+                        <div class="col-lg-12">
+                            <div class="feature-img">
+                                <img class="img-fluid" src="{{ post.thumbnail.url }}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-3  col-md-3">
+                            <div class="blog_info text-right">
+                                <div class="post_tag">
+                                {% for cat in post.categories.all %}
+                                <a class="active" href="#">{{ cat }},</a>
+                                {% endfor %}
+                                   
+                                </div>
+                                <ul class="blog_meta list">
+                                    <li><a href="#">{{ post.author.user.username }}<i class="lnr lnr-user"></i></a></li>
+                                    <li><a href="#">{{ post.timestamp|timesince }} ago<i class="lnr lnr-calendar-full"></i></a></li>
+                                    <li><a href="#">{{ post.view_count }}<i class="lnr lnr-eye"></i></a></li>
+                                    <li><a href="#">{{ post.comment_count }}<i class="lnr lnr-bubble"></i></a></li>
+                                </ul>
+                                <ul class="social-links">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-github"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+<div class="col-lg-9 col-md-9 blog_details">
+
+                <div align="right"> 
+                {% if request.user.is_staff %}
+                <button type="button" class="btn btn-success"><a href="{% url 'post-update' id=post.id %}" style="color: white;">Update</a></button>
+
+              <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                  Delete
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Once you delete this article you lose it permanently.
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger"><a href="{% url 'post-delete' id=post.id %}" style="color: white;">Delete</a></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+            </div>
+
+                            <h2>{{ post.title }}</h2>
+                            <p class="excert">
+                              {{ post.content | safe }}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="quotes">
+                              {{ post.content | safe }} 
+                            </div>
+                     
+                        </div>
+                    </div>
+                    <div class="navigation-area">
+                        <div class="row">
+                            {% if post.previous_post %}
+                            <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                
+                                <div class="thumb">
+                                    <a href="{{ post.previous_post.get_absolute_url }}"><img class="img-fluid" style="width: 170px; height: 80px;" src="{{ post.previous_post.thumbnail.url }}" alt=""></a>
+                                </div>
+                                
+                                <div class="arrow">                              
+                                    <a href="{{ post.previous_post.get_absolute_url }}"><span class="lnr text-white lnr-arrow-left"></span></a>
+                                </div>
+                                <div class="detials">
+                                    <p>Previous Post</p>
+                                    <a href="{{ post.previous_post.get_absolute_url }}">
+                                        <h4>{{ post.previous_post.title }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if post.next_post %}   
+                            <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                
+                                <div class="detials">
+                                    <p>Next Post</p>
+                                    <a href="{{ post.next_post.get_absolute_url }}">
+                                        <h4>{{ post.next_post.title }}</h4>
+                                    </a>
+                                </div>
+                                <div class="arrow">
+                                    <a href="{{ post.next_post.get_absolute_url }}"><span class="lnr text-white lnr-arrow-right"></span></a>
+                                </div>
+                                <div class="thumb">
+                                    <a href="{{ post.next_post.get_absolute_url }}"><img class="img-fluid" style="width: 170px; height: 80px;" src="{{ post.next_post.thumbnail.url }}" alt=""></a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                            
+                    
+                    <div class="comments-area">
+                        <h4>{{ post.comments.count }} Comment(s)</h4>
+                    {% for comment in post.get_comments %}
+                        <div class="comment-list">
+                            <div class="single-comment justify-content-between d-flex">
+                                <div class="user justify-content-between d-flex">
+                                    <div class="thumb">
+                                        {% if comment.user.author %}
+                                        <img style="width: 80px;" src="{{ comment.user.author.profile_picture.url }}" alt="">
+                                        {% else %}
+                                        <img style="width: 80px;" src="{{ user.profile.image.url }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="desc">
+                                        <h5><a href="#">{{ comment.user.username }}</a></h5>
+                                        <p class="date">{{ comment.timestamp|timesince }} ago</p>
+                                        <p class="comment">
+                                            {{ comment.content }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="reply-btn">
+                                    <a href="" class="btn-reply text-uppercase">reply</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    {% if request.user.is_authenticated %}
+                    <div class="comment-form">
+                        <h4>Leave a Comment</h4>
+                        <form method="POST" action=".">
+                        {% csrf_token %}
+                            <div class="form-group form-inline">
+                        {{ form }}
+                            </div>
+                            
+                        <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                      </div>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="form-group col-md-12 mt-5">
+                    <a href="{% url 'account_login' %}" class="btn btn-secondary">Login to Comment</a>
+                    </div>
+                    {% endif %}
+            </div>
+        </div>
+            {% include 'sidebar.html' %}
+    </section>
+    <!--================Blog Area =================-->
+
+{% endblock content %}

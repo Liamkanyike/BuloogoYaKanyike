@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+
+    <!--================Blog Categorie Area =================-->
+    <section class="blog_categorie_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="categories_post">
+                        <img src="{% static 'img/blog/cat-post/cat-post-3.jpg' %}" alt="post">
+                        <div class="categories_details">
+                            <div class="categories_text">
+                                <a href="blog-details.html">
+                                    <h5>Home Automation</h5>
+                                </a>
+                                <div class="border_line"></div>
+                                <p>Simplify your Home Life</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="categories_post">
+                        <img src="{% static 'img/blog/cat-post/cat-post-2.jpg' %}" alt="post">
+                        <div class="categories_details">
+                            <div class="categories_text">
+                                <a href="blog-details.html">
+                                    <h5>Interior Designing</h5>
+                                </a>
+                                <div class="border_line"></div>
+                                <p>Beautify Your Home</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="categories_post">
+                        <img src="{% static 'img/blog/cat-post/cat-post-1.jpg' %}" alt="post">
+                        <div class="categories_details">
+                            <div class="categories_text">
+                                <a href="blog-details.html">
+                                    <h5>Website/Blog Design</h5>
+                                </a>
+                                <div class="border_line"></div>
+                                <p>Become part of the future</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Blog Categorie Area =================-->
+
+    <!--================Blog Area =================-->
+    <section class="blog_area">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-8">
+                    <div class="blog_left_sidebar">
+                        {% for post in queryset %}
+                        <article class="row blog_item">
+                            <div class="col-md-3">
+                                <div class="blog_info text-right">
+                                    {% for cat in post.categories.all %}
+                                    <div class="post_tag">
+                                        <a href="#">{{ cat }}</a>
+                                    </div>
+                                    {% endfor %}
+                                    <ul class="blog_meta list">
+                                        <li><a href="#">{{ post.author.user.username }}<i class="lnr lnr-user"></i></a></li>
+                                        <li><a href="#">{{ post.timestamp|timesince }} ago<i class="lnr lnr-calendar-full"></i></a></li>
+                                        <li><a href="#">{{ post.view_count }}<i class="lnr lnr-eye"></i></a></li>
+                                        <li><a href="#">{{ post.comment_count }}<i class="lnr lnr-bubble"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="blog_post">
+                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                    <div class="blog_details">
+                                        <a href="{{ post.get_absolute_url }}">
+                                            <h2>{{ post.title }}</h2>
+                                        </a>
+                                        <p>{{ post.overview }}</p>
+                                        <a href="{{ post.get_absolute_url }}" class="white_bg_btn">View More</a>
+                                    </div>
+                            </div>
+                        </div>
+                
+                        </article>
+                        {% endfor %}
+                        
+                    
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            <ul class="pagination">
+                                {% if queryset.has_previous %}
+                                <li class="page-item">
+                                    <a href="?{{ page_request_var }}={{ queryset.previous_page_number }}" class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">
+                                            <span class="lnr lnr-chevron-left"></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                    <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.number }}" class="page-link active">{{ queryset.number}}</a></li>
+
+                                {% if queryset.has_next %}
+                                <li class="page-item">
+                                    <a href="?{{ page_request_var }}={{ queryset.next_page_number }}" class="page-link" aria-label="Next">
+                                        <span aria-hidden="true">
+                                            <span class="lnr lnr-chevron-right"></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+               {% include 'sidebar.html' %}
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+
+{% endblock content %}
